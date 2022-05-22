@@ -22,14 +22,14 @@ const ProductList = ({ loading, data }) => {
                     alt=""
                     src={pro.photo}
                   />
-                  {pro.productRecords
-                    .map((rec) => (
-                      <Link key={rec.id} to={`/products/${pro.id}`}>
+                  {/* {pro.productRecords */}
+                   
+                      <Link key={pro.id} to={`/products/${pro.id}`}>
                         <h6  className="my-3">
-                          {rec.name}
+                          {pro.name}
                         </h6>
                       </Link>
-                    ))}
+                    {/* ))} */}
                   <p className="price">{pro.price} Azn</p>
                 </div>
               </div>

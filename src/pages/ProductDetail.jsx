@@ -24,7 +24,7 @@ const ProductDetail = () => {
 const dispatch=useDispatch()
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/products/${id}/${language}`)
+    fetch(`${BASE_URL}/api/products/detail/${id}/${language}`)
       .then((c) => c.json())
       .then((c) => setSinglePro(c));
     setLoading(false);
@@ -43,12 +43,12 @@ const dispatch=useDispatch()
             <div className="col-lg-5">
               <div className="pro-info">
                 {/* <span>{singlePro.category}</span> */}
-                {singlePro.productRecords.map((rec) => (
-                  <div key={rec.id}>
-                    <h2>{rec.name}</h2>
-                    <p>{rec.description}</p>
+                {/* {singlePro.productRecords.map((rec) => ( */}
+                  <div key={singlePro.id}>
+                    <h2>{singlePro.name}</h2>
+                    <p>{singlePro.description}</p>
                   </div>
-                ))}
+                {/* ))} */}
                 <p>Price:{singlePro.price} AZN</p>
                 <button className={`btn btn-outline-success`}
                   onClick={()=>{
