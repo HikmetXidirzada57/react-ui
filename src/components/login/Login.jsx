@@ -95,7 +95,7 @@ const Login = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            {...register("password",{required:"password is required"})}
+                            {...register("password",{required:"password is required"})} 
                             error={!!errors.password}
                             helperText={errors?.password?.message}
 
