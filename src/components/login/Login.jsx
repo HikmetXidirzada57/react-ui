@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,27 +14,34 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { BASE_URL } from '../../api/ApiConfig';
+import { LoadingButton } from '@mui/lab';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../Redux/Actions/UserActions';
 
 const theme = createTheme();
-
 const Login = () => {
-    // const [email, setEmail] = useState("")
-    // const [password, setPassword] = useState("")
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const dispatch=useDispatch()
+
+    const { register,
+           handleSubmit,
+           watch,
+           formState: { errors,isSubmitting,isValid } } = useForm({mode:"all"});
   
     const handleFormSubmit = (data) => {
-        (async()=>{
-          const rawResponse= await fetch(`${BASE_URL}api/account/login`,{
-                method:"Post",
-                headers:{
-                    "Accept":"application/json",
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(data)
-             })
-             const content=await rawResponse.json();
-             console.log(content)
-            })() 
+        
+        dispatch(loginAction(data.email,data.password))
+        // (async()=>{
+        //   const rawResponse= await fetch(`${BASE_URL}/api/account/login`,{
+        //         method:"Post",
+        //         headers:{
+        //             "Accept":"application/json",
+        //             "Content-Type":"application/json"
+        //         },
+        //         body:JSON.stringify(data)
+        //      })
+        //      const content=await rawResponse.json();
+        //      console.log(content)
+        //     })() 
     };
     return (
         // <ThemeProvider theme={theme}>
@@ -56,7 +63,7 @@ const Login = () => {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleFormSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -66,8 +73,9 @@ const Login = () => {
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            {...register("email",{required:true})}
-
+                            {...register("email",{required:"email is required!"})}
+                            error={!!errors?.email?.message}
+                            helperText={errors?.email?.message}
                         />
                         <TextField
                             margin="normal"
@@ -78,21 +86,25 @@ const Login = () => {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            {...register("password",{required:true})}
+                            {...register("password",{required:"password is required"})}
+                            error={!!errors.password}
+                            helperText={errors?.password?.message}
 
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
                         />
-                        <Button
+                        <LoadingButton
+                            disabled={!isValid}
+                            loading={isSubmitting}
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Sign In
-                        </Button>
+                        </LoadingButton>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">

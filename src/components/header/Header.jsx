@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import "./header.scss";
 import { useBasket } from "../../contexts/BasketContext";
 import { useLanguage } from "../../contexts/LanguageContext";
+import useSelector from 'react-redux'
 const Header = ({num}) => {
 
   // const basket=useBasket()
   const {changeLanguage}=useLanguage()
   const [bgColor, setBgColor] = useState("");
   
+  const userInfo=useSelector(state=>state.userLogin)
+
+  const [info, setUserInfo] = useState("")
+
+ 
+
   window.addEventListener("scroll", function () {
     if (window.scrollY > 100) {
       setBgColor("active-header");
@@ -49,6 +56,11 @@ const Header = ({num}) => {
               </li>
               <li>
                 <Link to="/register">Register</Link>
+              </li>
+              <li>
+                <Link to="/">
+             
+                </Link>
               </li>
             </ul>
           </div>
