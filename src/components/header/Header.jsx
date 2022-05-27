@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import "./header.scss";
-import { useBasket } from "../../contexts/BasketContext";
+// import { useBasket } from "../../contexts/BasketContext";
 import { useLanguage } from "../../contexts/LanguageContext";
-import useSelector from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux';
+import { logoutAction } from "../../Redux/Actions/UserActions";
+
 const Header = ({num}) => {
 
   // const basket=useBasket()
   const {changeLanguage}=useLanguage()
   const [bgColor, setBgColor] = useState("");
-  
-  const userInfo=useSelector(state=>state.userLogin)
 
-  const [info, setUserInfo] = useState("")
+  const dispatch=useDispatch()
+  const {userInfo}=useSelector(state=>state.userLogin)
 
- 
 
   window.addEventListener("scroll", function () {
     if (window.scrollY > 100) {
@@ -51,17 +51,30 @@ const Header = ({num}) => {
               <li>
                 <Link to="/haqqimizda">About</Link>
               </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-              <li>
-                <Link to="/">
-             
-                </Link>
-              </li>
+
+                {userInfo && userInfo.token ? (
+                  <>
+                 <li>
+                  <Link to="#">
+                      {userInfo.email}
+                  </Link>
+                  <li>
+                    <Link to="#">
+                      <button onClick={()=>dispatch(logoutAction())} className="btn btn-warning">Log Out</button>
+                    </Link>
+                  </li>
+                   </li>
+                  </>
+              ):(
+                <>
+                <li>
+                    <Link to="/login">Login</Link>
+                 </li>
+                 <li>
+                    <Link to="/register">Register</Link>
+                 </li>
+              </>
+              ) }
             </ul>
           </div>
         </div>

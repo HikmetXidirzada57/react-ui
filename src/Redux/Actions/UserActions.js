@@ -1,6 +1,6 @@
 import axios from "axios"
 import { BASE_URL } from "../../api/ApiConfig"
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_REGISTER_FAIL, USER_REGISTER_REQUSET, USER_REGISTER_SUCCES } from "../Constants/UserConstants"
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUSET, USER_REGISTER_SUCCES } from "../Constants/UserConstants"
 
  export const loginAction=(email,password)=>async(dispatch,getState)=>{
 
@@ -49,7 +49,9 @@ import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCES, USER_REGISTER_F
     }
  }
 
- const logoutAction=(email,password)=>(dispatch,getState)=>{
+  export const logoutAction=()=>(dispatch,getState)=>{
 
+    dispatch({type:USER_LOGOUT})
+    localStorage.removeItem("userInfo")
 
  }

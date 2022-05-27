@@ -15,12 +15,21 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { BASE_URL } from '../../api/ApiConfig';
 import { LoadingButton } from '@mui/lab';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../Redux/Actions/UserActions';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 const Login = () => {
     const dispatch=useDispatch()
+      
+    const {userInfo}=useSelector(state=>state.userLogin)
+    const navi=useNavigate()
+     React.useEffect(()=>{
+       if(userInfo && userInfo.token){
+         navi("/")
+       }
+     },[navi.userInfo])
 
     const { register,
            handleSubmit,
@@ -112,7 +121,7 @@ const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/register" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
